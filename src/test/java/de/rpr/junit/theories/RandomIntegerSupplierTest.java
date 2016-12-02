@@ -37,10 +37,10 @@ public class RandomIntegerSupplierTest {
   @Test
   public void supplierReturnsValuesBelowUpperBound() {
     when(paramSignature.getAnnotation(any())).thenReturn(mockAnnotation);
-    when(mockAnnotation.upperBound()).thenReturn(1);
-    when(mockAnnotation.numValues()).thenReturn(1);
+    when(mockAnnotation.upperBound()).thenReturn(5);
+    when(mockAnnotation.numValues()).thenReturn(5);
     List<Integer> result = supplier.getStream(paramSignature).collect(Collectors.toList());
-    assertThat(result.get(0)).isLessThanOrEqualTo(1);
+    assertThat(result).filteredOn(it -> it > 5).hasSize(0);
   }
 
   @Test
@@ -50,6 +50,5 @@ public class RandomIntegerSupplierTest {
     when(mockAnnotation.numValues()).thenReturn(2);
     List<Integer> result = supplier.getStream(paramSignature).collect(Collectors.toList());
     assertThat(result).hasSize(2);
-
   }
 }
